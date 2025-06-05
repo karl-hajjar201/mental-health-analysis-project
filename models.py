@@ -8,7 +8,7 @@ class InsightResponse(BaseModel):
     correlations: Dict[str, float]
 
 
-class DailyInsightOut(BaseModel):
+class DailyInsightResponse(BaseModel):
     date: date
     avg_stress: float
     notes: Optional[str] = None

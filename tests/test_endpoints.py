@@ -5,6 +5,7 @@ client = TestClient(app)
 
 
 def test_get_mental_insights():
+    # Tests that mental insights endpoint returns correctly
     response = client.get("/mental-insights")
     assert response.status_code == 200
     data = response.json()
@@ -15,6 +16,7 @@ def test_get_mental_insights():
 
 
 def test_get_daily_insight_success():
+    # Tests that daily insight returns correctly for a valid date
     response = client.get("/daily-insight", params={"date": "2024-05-01"})
     assert response.status_code == 200
     data = response.json()
@@ -24,7 +26,7 @@ def test_get_daily_insight_success():
 
 
 def test_get_daily_insight_not_found():
-    # Testing with a date with no data should 404
+    # Testing that a date with no data should 404
     response = client.get("/daily-insight", params={"date": "1401-01-01"})
     assert response.status_code == 404
     data = response.json()
