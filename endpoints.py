@@ -1,4 +1,3 @@
-from fastapi import APIRouter
 from models import InsightResponse
 from fastapi import APIRouter, HTTPException, Query
 from datetime import date
@@ -19,18 +18,23 @@ INSIGHTS = {
     }
 }
 
+
 @router.get("/mental-insights", response_model=InsightResponse)
 def get_mental_insights():
     return INSIGHTS
 
 
 @router.get("/daily-insight", response_model=DailyInsightOut)
-def get_daily_insight(date: date = Query(..., description="Date in YYYY-MM-DD format")):
+def get_daily_insight(
+  date: date = Query(..., description="Date in YYYY-MM-DD format")
+):
     db = SessionLocal()
     result = db.query(DailyInsight).filter(DailyInsight.date == date).first()
     db.close()
     if not result:
-        raise HTTPException(status_code=404, detail=f"No insights found for {date}")
+        raise HTTPException(
+          status_code=404, detail=f"No insights found for {date}"
+        )
     return DailyInsightOut(
         date=result.date,
         avg_stress=result.avg_stress,

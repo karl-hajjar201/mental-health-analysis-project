@@ -6,6 +6,7 @@ app = FastAPI(title="Mental Health Insights API")
 
 app.include_router(router)
 
+
 @app.on_event("startup")
 def startup_event():
     seed_db()
