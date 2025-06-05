@@ -64,3 +64,13 @@ Linting can be run with the command
 ```bash
  flake8 {file_name}
 ```
+
+# Lambda Implementation
+I completed this exercise using FastAPI because I am more comfortable with it. I implemented the first endpoint (GET /mental-insights) using Lambda in addition. To test this implentation, install AWS SAM.
+
+Then run 
+``` bash
+sam local start-api
+```
+
+GET /mental-insights will now be available.

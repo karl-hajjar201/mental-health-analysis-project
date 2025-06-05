@@ -7,60 +7,20 @@ Globals:
     Timeout: 10
 
 Resources:
-
-  UserTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      TableName: UserEvents
-      BillingMode: PAYPERREQUEST
-      AttributeDefinitions:
-        - AttributeName: userId
-          AttributeType: S
-      KeySchema:
-        - AttributeName: userId
-          KeyType: HASH
-      StreamSpecification:
-        StreamViewType: NEW_IMAGE
-
-  TSLambda:
+  MentalInsightsFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: ts-lambda/
-      Handler: dist/app.handler
-      Runtime: nodejs18.x
-      Events:
-        Api:
-          Type: Api
-          Properties:
-            Path: /user
-            Method: post
-      Environment:
-        Variables:
-          PGHOST: "host.docker.internal"
-          PGUSER: "postgres"
-          PGPASSWORD: "example"
-          PGDATABASE: "users"
-          PGPORT: "5432"
-
-  PyLambda:
-    Type: AWS::Serverless::Function
-    Properties:
-      CodeUri: py-lambda/
-      Handler: app.lambda_handler
+      Handler: lambda_mental_insights.lambda_handler
       Runtime: python3.11
+      CodeUri: .
       Events:
-        Api:
+        MentalInsightsApi:
           Type: Api
           Properties:
-            Path: /user-python
-            Method: post
-      Environment:
-        Variables:
-          PGHOST: "host.docker.internal"
-          PGUSER: "postgres"
-          PGPASSWORD: "example"
-          PGDATABASE: "users"
-          PGPORT: "5432"
+            Path: /mental-insights
+            Method: GET
+
+
 
 Outputs:
   ApiUrl:
