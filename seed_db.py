@@ -37,8 +37,7 @@ def seed_db():
             avg_stress=row["stress_level"],
             notes=row["notes"]
         )
-    db.merge(insight)  # merge prevents duplicates
-
+        db.merge(insight)  # merge prevents duplicates
     db.commit()
     db.close()
 

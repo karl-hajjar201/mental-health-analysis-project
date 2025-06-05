@@ -2,7 +2,7 @@ from models import InsightResponse
 from fastapi import APIRouter, HTTPException, Query
 from datetime import date
 from db import SessionLocal, DailyInsight
-from models import DailyInsightOut
+from models import DailyInsightResponse
 router = APIRouter()
 
 INSIGHTS = {
@@ -33,7 +33,7 @@ def get_mental_insights():
 
 @router.get(
     "/daily-insight",
-    response_model=DailyInsightOut,
+    response_model=DailyInsightResponse,
     description=(
         "Returns the average stress score and notes"
         "for a given date based on sensor data"
@@ -49,7 +49,7 @@ def get_daily_insight(
         raise HTTPException(
           status_code=404, detail=f"No insights found for {date}"
         )
-    return DailyInsightOut(
+    return DailyInsightResponse(
         date=result.date,
         avg_stress=result.avg_stress,
         notes=result.notes

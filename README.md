@@ -1,69 +1,66 @@
-# AWS SAM Sample App
+# Challenge 1: Data Scientist
 
-This is a sample AWS SAM app with:
+This is an application to return insights about the 'university_mental_health_iot_dataset.csv'
 
-- A TypeScript Lambda function that writes to PostgreSQL.
-- A Python Lambda function that writes to PostgresSQL.
+## Frameworks Used
 
-## Prerequisites
+FastAPI – Used to build the API. It provides automatic Swagger documentation (/docs).
 
-- Docker (for local PostgreSQL testing)
-- AWS CLI
-- AWS SAM CLI
-- Node.js (v18+)
-- Python 3.11
+Pydantic – Used to define and validate request/response schemas and auto-generated OpenAPI docs.
+
+SQLite – Lightweight relational database used for storing daily stress insights. 
+
+SQLAlchemy – SQL ORM for managing database models and queries in Python.
+
+Flake8 – Code linter that enforces Python style guidelines (PEP8) to maintain clean and readable code.
+
+Pytest – Testing framework used to write and run automated tests for the API endpoints.
+
+
+## Exploratory Data Analysis
+
+EDA was performed in a jupyter notebook included in this repo titled 'EDA.ipynb'. Main insights were collected using a correlation matrix. The notebook makes use
+of Python libraries such as Pandas, Seaborn, and Matplotlib for analysis. 
 
 ## Setup Instructions
 
-````bash
-# Install TypeScript Lambda dependencies
-cd ts-lambda
-npm install
-cd ..
 
-# Compile TypeScript
-npx tsc -p ts-lambda
-
-# Build the SAM app
-sam build
-
-
-
-## PostgreSQL Setup (Local Docker)
-
+### Create Virtual Environment in project directory
 ```bash
-docker run --name postgres -e POSTGRES_PASSWORD=example -e POSTGRES_DB=users -p 5432:5432 -d postgres
-````
-
-Once running, initialize the table:
-
-```bash
-docker exec -i postgres psql -U postgres -d users < db/init.sql
+ python -m venv .venv
+ source .venv/bin/activate
 ```
 
-windows
-
+### Install dependencies
 ```bash
-Get-Content db/init.sql | docker exec -i postgres psql -U postgres -d users
+ pip install -r requirements.txt
+ ```
 
-```
-
-## start local API
-
+### Run application. This will seed the database.
 ```bash
-sam local start-api
+uvicorn main:app --reload
 ```
 
-### payload example
 
-```json
-{
-  "name": "BOOM",
-  "id": "739e9599-ca49-40dd-8da2-0acf7506b152"
-}
+## Endpoints
+
+- GET /mental-insights
+- GET /daily-insight
+- GET /docs
+
+
+Documentation on expected use of the API can be found at /docs.
+
+## Tests
+
+Tests can be run with the command 
+```bash
+python -m pytest tests/
 ```
 
-#### endpoints
+## Linting
 
-- POST /users
-- POST /user-python
+Linting can be run with the command
+```bash
+ flake8 {file_name}
+```
