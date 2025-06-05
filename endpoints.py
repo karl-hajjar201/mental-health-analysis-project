@@ -19,12 +19,26 @@ INSIGHTS = {
 }
 
 
-@router.get("/mental-insights", response_model=InsightResponse)
+@router.get(
+    "/mental-insights",
+    response_model=InsightResponse,
+    description=(
+        "Returns precomputed top stress-related features and "
+        "their correlation values with stress level."
+    )
+)
 def get_mental_insights():
     return INSIGHTS
 
 
-@router.get("/daily-insight", response_model=DailyInsightOut)
+@router.get(
+    "/daily-insight",
+    response_model=DailyInsightOut,
+    description=(
+        "Returns the average stress score and notes"
+        "for a given date based on sensor data"
+    )
+)
 def get_daily_insight(
   date: date = Query(..., description="Date in YYYY-MM-DD format")
 ):
